@@ -58,7 +58,7 @@ void send_command( INT8U com )
 
    void send_command_4bit( INT8U com )
 /*****************************************************************************
-*   Input    : -Command to send !!4 bits only!!
+*   Input    : -Command to send !!4 bit only!!
 *   Output   : -
 *   Function : Sends command to display
 ******************************************************************************/
@@ -74,23 +74,6 @@ void send_command( INT8U com )
 }
    
 
-INT8U check_busy()
-/*****************************************************************************
-*   Input    : -
-*   Output   : - 1 - if busy, 0 - if not busy.
-*   Function : Write Character To Display
-******************************************************************************/
-{
-    // Turn on Enable pin
-    GPIO_PORTD_DATA_R |= 0b00001000; 
-
-    INT8U busy = ( ( GPIO_PORTD_DATA_R & 0x80 ) >> 7 );
-
-    //Turn off enable pin
-    GPIO_PORTD_DATA_R &= ~(0b00001000);
-
-    return busy;
-}
 
 void lcd_init( void )
 /*****************************************************************************
