@@ -41,19 +41,19 @@ void send_command( INT8U com )
     enable_off();
     GPIO_PORTC_DATA_R &= 0x0F;
     GPIO_PORTC_DATA_R |= (( com & 0xF0 ) );
-    delay_micro(10);
+    delay_micro(5);
     enable_on();
-    delay_micro(10);
+    delay_micro(5);
     enable_off();
 
     GPIO_PORTC_DATA_R &= 0x0F;
     GPIO_PORTC_DATA_R |= ( ( com & 0x0F ) << 4 );
-    delay_micro(10);
+    delay_micro(5);
     enable_on();
-    delay_micro(10);
+    delay_micro(5);
     enable_off();
     rs_off();
-    delay_micro(10);
+    delay_micro(5);
 }
 
    void send_command_4bit( INT8U com )
@@ -68,9 +68,9 @@ void send_command( INT8U com )
     GPIO_PORTC_DATA_R &= 0x0F; // Turn everithing on 4bit bus off.
     GPIO_PORTC_DATA_R |= (com << 4);
     enable_on();
-    delay_micro(10);
+    delay_micro(5);
     enable_off();
-    delay_micro(10);
+    delay_micro(5);
 }
    
 
@@ -203,18 +203,18 @@ void send_data( INT8U data )
     enable_off();
     GPIO_PORTC_DATA_R &= 0x0F;
     GPIO_PORTC_DATA_R |= ( ( data & 0xF0 ) );
-    delay_micro(40);
+    delay_micro(5);
     enable_on();
-    delay_micro(40);
+    delay_micro(5);
     enable_off();
     GPIO_PORTC_DATA_R &= 0x0F;
     GPIO_PORTC_DATA_R |= ( ( data & 0x0F ) << 4 );
-    delay_micro(40);
+    delay_micro(5);
     enable_on();
-    delay_micro(40);
+    delay_micro(5);
     enable_off();
     rs_off();
-    delay_micro(40);
+    delay_micro(5);
 }
 
 void clear_screen( void )

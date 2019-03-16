@@ -20,58 +20,121 @@ int main()
   lcd_init();
   enable_global_int();
   
-  INT8U test = 0;
-  INT8U test2 = 0;
-  INT16U timer;
-  INT16U timer2;
+  INT32U counter_clock  = 0;
+  INT32U timer_min      = TIM_1_MIN;
+  INT32U timer_hour     = TIM_1_HOUR;
+  INT16U timer_sec      = TIM_1_SEC;
+
+  INT32U hours          = 0;
+  INT32U minutes        = 0;
+
+  INT8U toggle          = 1;
+
+  set_cursor(6,0);
+  send_data('0');
+  send_data('0');
+  send_data(':');
+  send_data('0');
+  send_data('0');
 
     while(1)
     {
     while( !tic );
 	// The following will be executed every 5mS
     tic--;
+       
         // The following blinks the red status LED on EMP-Board.
         if( ! --alive_timer )
         {
         alive_timer        = TIM_500_MSEC;
         GPIO_PORTD_DATA_R ^= 0x40;
         }
+    
+    //counter_clock++;
+    //if ( counter_clock == 17280000)
+   // {
+     //   counter_clock = 0;
+    //}
 
-        if (test2 == 0) 
-        {
-            set_cursor(6,0);
-            write_string("25 23");       
-            test2++;
-        }
-        
 
-        
-       
-        if (test == 0) 
-        {
-            test++;
-            timer = TIM_1_SEC;    
-        }
+    if ( !--timer_sec ) 
+    {   
+        toggle ^= 1;
 
-        
-
-         if ( !--timer ) 
+        if ( toggle ) 
         {
             set_cursor(8,0);
             send_data(':');
-            timer2 = TIM_1_SEC;
-
         }
-
-
-         if ( !--timer2 ) 
+        else
         {
             set_cursor(8,0);
             send_data(' ');
-            test = 0;
-            timer = TIM_1_SEC;
-
         }
+
+        timer_sec = TIM_1_SEC;
+    }
+
+/////////////////////////////////////////////////////////////////////////
+  
+    if ( !--timer_min ) 
+    {   
+        minutes++;
+
+        //Calculate chars + 48 to make right ASCII char - 48 = '0'
+        INT8U char1 = ( minutes / 10 ) + 48;
+        INT8U char2 = ( minutes % 10 ) + 48;
+
+        if (minutes == 60) 
+        {
+            minutes = 0;
+        }
+
+        if ( minutes < 10 ) 
+        {
+            set_cursor(9,0);
+            send_data('0');
+            send_data(char2);        
+        }
+        else
+        {
+            set_cursor(9,0);
+            send_data(char1);
+            send_data(char2); 
+        }
+
+        timer_min = TIM_1_MIN;
+    }
+///////////////////////////////////////////////////////////////////////
+    if ( !--timer_hour ) 
+    {   
+        hours++;
+
+        //Calculate chars + 48 to make right ASCII char - 48 = '0'
+        INT8U char1 = ( hours / 10 ) + 48;
+        INT8U char2 = ( hours % 10 ) + 48;
+
+        if (hours == 24) 
+        {
+            hours = 0;
+        }
+
+        if ( hours < 10 ) 
+        {
+            set_cursor(6,0);
+            send_data('0');
+            send_data(char2);        
+        }
+        else
+        {
+            set_cursor(6,0);
+            send_data(char1);
+            send_data(char2); 
+        }
+
+        timer_hour = TIM_1_HOUR;
+    }
+
     }        
 }
     

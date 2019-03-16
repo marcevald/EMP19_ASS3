@@ -29,6 +29,8 @@
 #define TIM_1_SEC     200
 #define TIM_2_SEC     400
 #define TIM_4_SEC     800
+#define TIM_1_MIN     12000
+#define TIM_1_HOUR    720000
 
 /*****************************   Constants   *******************************/
 
