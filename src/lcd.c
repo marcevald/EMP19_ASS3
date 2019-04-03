@@ -92,7 +92,7 @@ void lcd_init( void )
 
     send_command_4bit(0x2); // Set 4-bit mode
 
-    send_command(0x26); // 4-bit mode, 1/16 display, 5x8 font
+    send_command(0x28); // 4-bit mode, 2/16 display, 5x8 font
 
     send_command(0x08); // Display off
     
@@ -251,11 +251,8 @@ void set_cursor( INT8U x, INT8U y)
 *   Function : Puts the Cursor where described by x, y coordinates.
 ******************************************************************************/
 {
-    if ( ~y ) // If not y
-    {
         send_command(0x80 + x);
-    }
-    
+        send_command(0x40 + y);    
 }
 /****************************** End Of Module *******************************/
 
