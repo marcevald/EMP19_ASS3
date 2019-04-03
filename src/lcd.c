@@ -98,11 +98,11 @@ void lcd_init( void )
     
     send_command(0x0C); // Display On, Cursor Off  
 
-    send_command(0x06); // Endtry Mode
+    send_command(0x06); // Entry Mode
 
     send_command(0x01); // Home
 
-    delay_milli(1);  // Delay to give LCD controller time to Catch Up.
+    delay_milli(1);     // Delay to give LCD controller time to Catch Up.
     
 }
 

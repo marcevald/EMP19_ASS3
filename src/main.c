@@ -5,6 +5,7 @@
 #include "tm4c123gh6pm.h"
 #include "swtimers.h"
 #include "systick.h"
+#include "uart0.h"
 
 
 extern INT16S tic;
@@ -18,6 +19,7 @@ int main()
   init_systick();
   gpio_lcd();
   lcd_init();
+  uart0_init(9600, 8, 1, 0);
   enable_global_int();
   
   INT32U counter_clock  = 0;
@@ -29,14 +31,15 @@ int main()
   INT32U minutes        = 0;
 
   INT8U toggle          = 1;
-
+/*
   set_cursor(6,0);
   send_data('0');
   send_data('0');
   send_data(':');
   send_data('0');
   send_data('0');
-
+  clear_screen();
+*/
     while(1)
     {
     while( !tic );
@@ -49,14 +52,26 @@ int main()
         alive_timer        = TIM_500_MSEC;
         GPIO_PORTD_DATA_R ^= 0x40;
         }
-    
+
+        if (uart0_rx_rdy()) 
+        {
+            if (uart0_getc() == '0') 
+            {
+                clear_screen();
+            }
+            else
+            {
+                send_data(uart0_getc());
+            }
+        }
+
     //counter_clock++;
     //if ( counter_clock == 17280000)
    // {
      //   counter_clock = 0;
     //}
 
-
+/*
     if ( !--timer_sec ) 
     {   
         toggle ^= 1;
@@ -134,6 +149,7 @@ int main()
 
         timer_hour = TIM_1_HOUR;
     }
+    */
 
     }        
 }
